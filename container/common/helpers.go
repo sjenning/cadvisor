@@ -201,7 +201,26 @@ func CgroupExists(cgroupPaths map[string]string) bool {
 	return false
 }
 
+// isLeafContainer returns true if a container is assured not to have subcontainers.
+// This avoids costly and unnecessary Readdir() calls in ListDirectories().
+// systemd cgroup with these suffixes are guaranteed to not have subcontainers.
+func isLeafContainer(name string) bool {
+	if strings.HasSuffix(name, ".scope") {
+		return true
+	}
+	if strings.HasSuffix(name, ".service") {
+		return true
+	}
+	return false
+}
+
+// ListContainers lists containers that have a presence in
+// at least one of the supported cgroup controllers
 func ListContainers(name string, cgroupPaths map[string]string, listType container.ListType) ([]info.ContainerReference, error) {
+	if isLeafContainer(name) {
+		return []info.ContainerReference{}, nil
+	}
+
 	containers := make(map[string]struct{})
 	for _, cgroupPath := range cgroupPaths {
 		err := ListDirectories(cgroupPath, name, listType == container.ListRecursive, containers)
