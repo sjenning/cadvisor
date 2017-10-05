@@ -128,7 +128,7 @@ func (fh *realFsHandler) trackUsage() {
 			}
 			duration := time.Since(start)
 			if duration > longOp {
-				glog.V(2).Infof("du and find on following dirs took %v: %v", duration, []string{fh.rootfs, fh.extraDir})
+				glog.V(4).Infof("du and find on following dirs took %v: %v", duration, []string{fh.rootfs, fh.extraDir})
 			}
 		}
 	}
