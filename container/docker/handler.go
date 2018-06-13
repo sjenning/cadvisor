@@ -247,7 +247,6 @@ func newDockerContainerHandler(
 	handler.image = ctnr.Config.Image
 	handler.networkMode = ctnr.HostConfig.NetworkMode
 	handler.deviceID = ctnr.GraphDriver.Data["DeviceId"]
-	handler.restartCount = ctnr.RestartCount
 	// Only adds restartcount label if it's greater than 0
 	if ctnr.RestartCount > 0 {
 		handler.labels["restartcount"] = strconv.Itoa(ctnr.RestartCount)
