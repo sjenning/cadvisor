@@ -299,7 +299,7 @@ func (self *crioContainerHandler) getLibcontainerHandler() *containerlibcontaine
 	}
 
 	self.pidKnown = true
-	self.libcontainerHandler = containerlibcontainer.NewHandler(self.cgroupManager, self.rootFs, cInfo.Pid, self.includedMetrics)
+	self.libcontainerHandler = containerlibcontainer.NewHandler(self.cgroupManager, self.rootFs, cInfo.Pid, self.ignoreMetrics)
 
 	return self.libcontainerHandler
 }
